@@ -1,0 +1,42 @@
+{
+  "name": "automation-challenge",
+  "version": "1.0.0",
+  "description": "Automation challenge",
+  "main": "index.js",
+  "scripts": {
+    "clean": "rm -rf dist",
+    "build": "npm run lint && npm run clean && tsc",
+    "test": "npm run test:headless",
+    "test:local": "npm run build && protractor dist/protractor/local.config.js",
+    "test:headless": "npm run build && protractor dist/protractor/local.config.js",
+    "postinstall": "webdriver-manager update --gecko false",
+    "lint": "tslint --project tsconfig.json protractor/**/*.ts test/**/*.ts src/**/*.ts"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Andres-UA/automation-challenge.git"
+  },
+  "keywords": [
+    "ui-testing",
+    "dojo",
+    "practice",
+    "protractor"
+  ],
+  "author": "Andrés Urbano <andrewu121@gmail.com> (Andres-UA)",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/Andres-UA/automation-challenge/issues"
+  },
+  "homepage": "https://github.com/Andres-UA/automation-challenge#readme",
+  "dependencies": {
+    "protractor": "^5.4.2"
+  },
+  "devDependencies": {
+    "@types/jasminewd2": "^2.0.8",
+    "@types/node": "^12.7.12",
+    "jasmine-spec-reporter": "^4.2.1",
+    "tslint": "^5.20.0",
+    "tslint-config-airbnb": "^5.11.2",
+    "typescript": "^3.6.4"
+  }
+}
