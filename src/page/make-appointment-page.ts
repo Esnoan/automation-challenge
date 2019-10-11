@@ -15,16 +15,16 @@ export class MakeAppointmentPage {
     this.saveButton = $('div#page-wrapper a');
   }
 
-  public async makeAppointment(
-    doctorId: string,
-    patientId: string
-  ): Promise<void> {
+  public async makeAppointment(doctorId: string, patientId: string): Promise<void> {
     const date = new Date();
     date.setMonth(date.getMonth() + 1);
     await this.dateInput.sendKeys(date.toDateString());
     await this.doctorIdInput.sendKeys(doctorId);
     await this.patientIdInput.sendKeys(patientId);
     await this.observationsInput.sendKeys('Sin observaciones');
+  }
+
+  public async confirmDate() {
     await this.saveButton.click();
   }
 }
