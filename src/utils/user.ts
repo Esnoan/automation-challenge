@@ -1,3 +1,5 @@
+import { generateUUID } from './UUID';
+
 const agent = require('superagent');
 
 const baseUrl = 'https://randomuser.me/api/?inc=name,id,phone';
@@ -9,17 +11,47 @@ export async function generateUser(): Promise<User> {
   const response = await agent.get(baseUrl).query(query);
   const userJson = response.body.results[0];
 
-  return {
+  const data = {
     name: userJson.name.first,
     lastName: userJson.name.last,
     telephone: userJson.phone,
-    identification: userJson.id.value
+    identification: generateUUID()
   };
+
+  const user = new User(data);
+  return user;
 }
 
 export class User {
-  name: string;
-  lastName: string;
-  telephone: string;
-  identification: string;
+  private name: string;
+  private lastName: string;
+  private telephone: string;
+  private identification: string;
+  constructor({
+    name,
+    lastName,
+    telephone,
+    identification
+  }: { name?: string; lastName?: string; telephone?: string; identification?: string } = {}) {
+    this.name = name;
+    this.lastName = lastName;
+    this.telephone = telephone;
+    this.identification = identification;
+  }
+
+  public getName(): string {
+    return this.name;
+  }
+
+  public getLastName(): string {
+    return this.lastName;
+  }
+
+  public getTelephone(): string {
+    return this.telephone;
+  }
+
+  public getIdentification(): string {
+    return this.identification;
+  }
 }

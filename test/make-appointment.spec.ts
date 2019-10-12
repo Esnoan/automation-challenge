@@ -6,7 +6,7 @@ import {
   AddPatientPage,
   MakeAppointmentPage
 } from '../src/page';
-import { generateUser } from '../src/utils/user';
+import { generateUser, User } from '../src/utils/user';
 
 const URL = 'http://automatizacion.herokuapp.com/aurbano/';
 
@@ -17,14 +17,14 @@ describe('Given I want to schedule a medical appointment', () => {
   const addPatientPage: AddPatientPage = new AddPatientPage();
   const makeAppointmentPage: MakeAppointmentPage = new MakeAppointmentPage();
 
-  let doctor: any = {};
-  let patient: any = {};
+  let doctor: User = new User();
+  let patient: User = new User();
 
   it('and doctor exists in system', async () => {
     doctor = await generateUser();
     await browser.get(URL);
     await menuContentPage.goToAddDoctor();
-    await addDoctorPage.addDoctor(doctor.identification);
+    await addDoctorPage.addDoctor(doctor);
     const confirmationText = await confirmationPage.getConfirmationText();
     expect(confirmationText).toBe('Datos guardados correctamente.');
   });
@@ -33,7 +33,7 @@ describe('Given I want to schedule a medical appointment', () => {
     patient = await generateUser();
     await browser.get(URL);
     await menuContentPage.goToAddPatient();
-    await addPatientPage.addPatient(patient.identification);
+    await addPatientPage.addPatient(patient);
     const confirmationText = await confirmationPage.getConfirmationText();
     expect(confirmationText).toBe('Datos guardados correctamente.');
   });
@@ -41,7 +41,10 @@ describe('Given I want to schedule a medical appointment', () => {
   it('when I schedule the appointment on', async () => {
     await browser.get(URL);
     await menuContentPage.goToMakeAppointment();
-    await makeAppointmentPage.makeAppointment(doctor.identification, patient.identification);
+    await makeAppointmentPage.makeAppointment(
+      doctor.getIdentification(),
+      patient.getIdentification()
+    );
   });
 
   it('then I should get a confirmation message', async () => {
